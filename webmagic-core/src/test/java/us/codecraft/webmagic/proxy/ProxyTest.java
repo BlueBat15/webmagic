@@ -21,8 +21,6 @@ public class ProxyTest {
 
     @BeforeClass
     public static void before() {
-        // String[] source = { "0.0.0.1:0", "0.0.0.2:0", "0.0.0.3:0",
-        // "0.0.0.4:0" };
         String[] source = { "::0.0.0.1:0", "::0.0.0.2:0", "::0.0.0.3:0", "::0.0.0.4:0" };
         for (String line : source) {
             httpProxyList.add(new String[] {line.split(":")[0], line.split(":")[1], line.split(":")[2], line.split(":")[3] });
