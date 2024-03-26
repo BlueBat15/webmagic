@@ -27,24 +27,6 @@ public class ProxyTest {
         }
     }
 
-    class Fetch extends Thread {
-        HttpHost hp;
-
-        public Fetch(HttpHost hp) {
-            this.hp = hp;
-        }
-
-        @Override
-        public void run() {
-            try {
-                System.out.println("fetch web page use proxy: " + hp.getHostName() + ":" + hp.getPort());
-                sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Test
     public void testCreate() {
         Proxy proxy = Proxy.create(URI.create("//127.0.0.1:8080"));
