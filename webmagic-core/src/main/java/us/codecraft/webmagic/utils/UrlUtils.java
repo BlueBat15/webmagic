@@ -49,16 +49,6 @@ public class UrlUtils {
         }
     }
 
-    /**
-     *
-     * @param url url
-     * @return new url
-     * @deprecated
-     */
-    public static String encodeIllegalCharacterInUrl(String url) {
-        return url.replace(" ", "%20");
-    }
-
     public static String fixIllegalCharacterInUrl(String url) {
         //TODO more charator support
         return url.replace(" ", "%20").replaceAll("#+", "#");
