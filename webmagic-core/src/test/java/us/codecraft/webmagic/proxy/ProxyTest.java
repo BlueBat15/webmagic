@@ -77,7 +77,15 @@ public class ProxyTest {
         assertEquals(8080, proxy.getPort());
     }
 
-
+    @Test
+    public void testCreateWithAllAttribute(){
+        proxy = Proxy.create(URI.create("http://username:password@127.0.0.1:8080"));
+        assertEquals("http",proxy.getScheme());
+        assertEquals("username", proxy.getUsername());
+        assertEquals("password", proxy.getPassword());
+        assertEquals("127.0.0.1", proxy.getHost());
+        assertEquals(8080, proxy.getPort());
+    }
 
     @Test
     public void testToString() {
