@@ -20,6 +20,10 @@ import java.util.regex.Pattern;
  */
 public class UrlUtils {
 
+    private UrlUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * canonicalizeUrl
      * <br>
