@@ -197,19 +197,6 @@ public class Spider implements Runnable, Task {
      *
      * @param pipeline pipeline
      * @return this
-     * @see #addPipeline(us.codecraft.webmagic.pipeline.Pipeline)
-     * @deprecated
-     */
-    @Deprecated
-	public Spider pipeline(Pipeline pipeline) {
-        return addPipeline(pipeline);
-    }
-
-    /**
-     * add a pipeline for Spider
-     *
-     * @param pipeline pipeline
-     * @return this
      * @see Pipeline
      * @since 0.2.1
      */
