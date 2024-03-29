@@ -31,7 +31,7 @@ public class SpiderTest {
         SimplePageProcessor pageProcessor2 = new SimplePageProcessor( "http://www.diaoyuweng.com/thread-*-1-1.html");
         System.out.println(pageProcessor2.getSite().getCharset());
         pageProcessor2.getSite().setSleepTime(500);
-        Spider.create(pageProcessor2).addUrl("http://www.diaoyuweng.com/home.php?mod=space&uid=88304&do=thread&view=me&type=thread&from=space").addPipeline(new FilePipeline()).scheduler(new FileCacheQueueScheduler("/data/temp/webmagic/cache/")).
+        Spider.create(pageProcessor2).addUrl("http://www.diaoyuweng.com/home.php?mod=space&uid=88304&do=thread&view=me&type=thread&from=space").addPipeline(new FilePipeline()).setScheduler(new FileCacheQueueScheduler("/data/temp/webmagic/cache/")).
                 run();
 
 
