@@ -36,16 +36,10 @@ public class Json extends PlainText {
     }
 
     public <T> T toObject(Class<T> clazz) {
-        if (getFirstSourceText() == null) {
-            return null;
-        }
         return JSON.parseObject(getFirstSourceText(), clazz);
     }
 
     public <T> List<T> toList(Class<T> clazz) {
-        if (getFirstSourceText() == null) {
-            return null;
-        }
         return JSON.parseArray(getFirstSourceText(), clazz);
     }
 
