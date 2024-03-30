@@ -54,6 +54,10 @@ public class Site {
         DEFAULT_STATUS_CODE_SET.add(HttpConstant.StatusCode.CODE_200);
     }
 
+    public static final int  DEFAULT_VALUE = 0;
+
+    public static final int HASH_VALUE = 31;
+
     /**
      * new a Site
      *
@@ -401,16 +405,16 @@ public class Site {
 
     @Override
     public int hashCode() {
-        int result = domain != null ? domain.hashCode() : 0;
-        result = 31 * result + (userAgent != null ? userAgent.hashCode() : 0);
-        result = 31 * result + (defaultCookies != null ? defaultCookies.hashCode() : 0);
-        result = 31 * result + (charset != null ? charset.hashCode() : 0);
-        result = 31 * result + sleepTime;
-        result = 31 * result + retryTimes;
-        result = 31 * result + cycleRetryTimes;
-        result = 31 * result + timeOut;
-        result = 31 * result + (acceptStatCode != null ? acceptStatCode.hashCode() : 0);
-        result = 31 * result + (headers != null ? headers.hashCode() : 0);
+        int result = domain != null ? domain.hashCode() : DEFAULT_VALUE;
+        result = HASH_VALUE * result + (userAgent != null ? userAgent.hashCode() : DEFAULT_VALUE);
+        result = HASH_VALUE * result + (defaultCookies != null ? defaultCookies.hashCode() : DEFAULT_VALUE);
+        result = HASH_VALUE * result + (charset != null ? charset.hashCode() : DEFAULT_VALUE);
+        result = HASH_VALUE * result + sleepTime;
+        result = HASH_VALUE * result + retryTimes;
+        result = HASH_VALUE * result + cycleRetryTimes;
+        result = HASH_VALUE * result + timeOut;
+        result = HASH_VALUE * result + (acceptStatCode != null ? acceptStatCode.hashCode() : DEFAULT_VALUE);
+        result = HASH_VALUE * result + (headers != null ? headers.hashCode() : DEFAULT_VALUE);
         return result;
     }
 
