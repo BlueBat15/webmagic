@@ -18,7 +18,7 @@ public class HttpRequestBody implements Serializable {
 
     private static final long serialVersionUID = 5659170945717023595L;
 
-    public static abstract class ContentType {
+    public abstract static class ContentType {
 
         public static final String JSON = "application/json";
 
@@ -34,9 +34,6 @@ public class HttpRequestBody implements Serializable {
     private String contentType;
 
     private String encoding;
-
-    public HttpRequestBody() {
-    }
 
     public HttpRequestBody(byte[] body, String contentType, String encoding) {
         this.body = body;
