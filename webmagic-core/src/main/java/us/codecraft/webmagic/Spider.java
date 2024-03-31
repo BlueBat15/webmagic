@@ -251,13 +251,7 @@ public class Spider implements Runnable, Task {
             pipelines.add(new ConsolePipeline());
         }
         downloader.setThread(threadNum);
-        if (threadPool == null || threadPool.isShutdown()) {
-            if (executorService != null && !executorService.isShutdown()) {
-                threadPool = new CountableThreadPool(threadNum, executorService);
-            } else {
-                threadPool = new CountableThreadPool(threadNum);
-            }
-        }
+        this.initThreadPool();
         if (startRequests != null) {
             for (Request request : startRequests) {
                 addRequest(request);
@@ -265,6 +259,14 @@ public class Spider implements Runnable, Task {
             startRequests.clear();
         }
         startTime = new Date();
+    }
+
+    private void initThreadPool(){
+            if (executorService != null && !executorService.isShutdown()) {
+                threadPool = new CountableThreadPool(threadNum, executorService);
+            } else {
+                threadPool = new CountableThreadPool(threadNum);
+            }
     }
 
     @Override
