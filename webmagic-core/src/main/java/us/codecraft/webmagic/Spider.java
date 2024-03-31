@@ -236,7 +236,7 @@ public class Spider implements Runnable, Task {
      * @param downloader downloader
      * @return this
      * @see Downloader
-     */
+   c  */
     public Spider setDownloader(Downloader downloader) {
         checkIfRunning();
         this.downloader = downloader;
@@ -244,10 +244,10 @@ public class Spider implements Runnable, Task {
     }
 
     protected void initComponent() {
-        if (downloader == null) {
+        if (this.downloader == null) {
             this.setDownloader(new HttpClientDownloader());
         }
-        if (pipelines.isEmpty()) {
+        if (this.pipelines.isEmpty()) {
             this.addPipeline(new ConsolePipeline());
         }
         this.downloader.setThread(this.threadNum);
@@ -255,15 +255,13 @@ public class Spider implements Runnable, Task {
         this.addStartRequests(this.startRequests);
         this.startTime = new Date();
     }
-
     private void initThreadPool(){
-            if (executorService != null && !executorService.isShutdown()) {
-                threadPool = new CountableThreadPool(threadNum, executorService);
+            if (this.executorService != null && !this.executorService.isShutdown()) {
+                this.threadPool = new CountableThreadPool(this.threadNum, this.executorService);
             } else {
-                threadPool = new CountableThreadPool(threadNum);
+                this.threadPool = new CountableThreadPool(this.threadNum);
             }
     }
-
     private void addStartRequests(List<Request> requests){
         if(requests != null){
             for(Request request : CollectionUtils.emptyIfNull(requests)){
