@@ -235,19 +235,6 @@ public class Spider implements Runnable, Task {
      *
      * @param downloader downloader
      * @return this
-     * @see #setDownloader(us.codecraft.webmagic.downloader.Downloader)
-     * @deprecated
-     */
-    @Deprecated
-	public Spider downloader(Downloader downloader) {
-        return setDownloader(downloader);
-    }
-
-    /**
-     * set the downloader of spider
-     *
-     * @param downloader downloader
-     * @return this
      * @see Downloader
      */
     public Spider setDownloader(Downloader downloader) {
