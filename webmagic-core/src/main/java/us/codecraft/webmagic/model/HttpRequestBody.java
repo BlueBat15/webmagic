@@ -35,6 +35,8 @@ public class HttpRequestBody implements Serializable {
 
     private String encoding;
 
+    public static final String THROWED_MESSAGE = "illegal encoding ";
+
     public HttpRequestBody(byte[] body, String contentType, String encoding) {
         this.body = body;
         this.contentType = contentType;
@@ -65,7 +67,7 @@ public class HttpRequestBody implements Serializable {
         try {
             return new HttpRequestBody(json.getBytes(encoding), ContentType.JSON, encoding);
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("illegal encoding " + encoding, e);
+            throw new IllegalArgumentException(THROWED_MESSAGE + encoding, e);
         }
     }
 
@@ -73,7 +75,7 @@ public class HttpRequestBody implements Serializable {
         try {
             return new HttpRequestBody(xml.getBytes(encoding), ContentType.XML, encoding);
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("illegal encoding " + encoding, e);
+            throw new IllegalArgumentException(THROWED_MESSAGE + encoding, e);
         }
     }
 
@@ -89,7 +91,7 @@ public class HttpRequestBody implements Serializable {
         try {
             return new HttpRequestBody(URLEncodedUtils.format(nameValuePairs, encoding).getBytes(encoding), ContentType.FORM, encoding);
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("illegal encoding " + encoding, e);
+            throw new IllegalArgumentException(THROWED_MESSAGE + encoding, e);
         }
     }
 
