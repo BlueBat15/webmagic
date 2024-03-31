@@ -245,20 +245,15 @@ public class Spider implements Runnable, Task {
 
     protected void initComponent() {
         if (downloader == null) {
-            this.downloader = new HttpClientDownloader();
+            this.setDownloader(new HttpClientDownloader());
         }
         if (pipelines.isEmpty()) {
-            pipelines.add(new ConsolePipeline());
+            this.addPipeline(new ConsolePipeline());
         }
-        downloader.setThread(threadNum);
+        this.downloader.setThread(this.threadNum);
         this.initThreadPool();
-        if (startRequests != null) {
-            for (Request request : startRequests) {
-                addRequest(request);
-            }
-            startRequests.clear();
-        }
-        startTime = new Date();
+        this.addStartRequests(this.startRequests);
+        this.startTime = new Date();
     }
 
     private void initThreadPool(){
@@ -269,10 +264,19 @@ public class Spider implements Runnable, Task {
             }
     }
 
+    private void addStartRequests(List<Request> requests){
+        if(requests != null){
+            for(Request request : CollectionUtils.emptyIfNull(requests)){
+                this.addRequest(request);
+            }
+            this.startRequests.clear();
+        }
+    }
+
     @Override
     public void run() {
-        checkRunningStat();
         initComponent();
+        checkRunningStat();
         logger.info("Spider {} started!", getUUID());
         // interrupt won't be necessarily detected
         while (!Thread.currentThread().isInterrupted() && stat.get() == STAT_RUNNING) {
