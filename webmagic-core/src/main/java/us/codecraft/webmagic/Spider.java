@@ -390,10 +390,8 @@ public class Spider implements Runnable, Task {
      */
     public void test(String... urls) {
         initComponent();
-        if (urls.length > 0) {
-            for (String url : urls) {
-                processRequest(new Request(url));
-            }
+        for (String url : urls) {
+            processRequest(new Request(url));
         }
     }
 
