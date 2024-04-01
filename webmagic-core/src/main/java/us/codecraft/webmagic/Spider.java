@@ -308,21 +308,7 @@ public class Spider implements Runnable, Task {
             }
             final Request request = poll;
             //this may swallow the interruption
-            threadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        processRequest(request);
-                        onSuccess(request);
-                    } catch (Exception e) {
-                        onError(request, e);
-                        logger.error("process request " + request + " error", e);
-                    } finally {
-                        pageCount.incrementAndGet();
-                        signalNewUrl();
-                    }
-                }
-            });
+            this.executeThreadPool(request);
         }
         stat.set(STAT_STOPPED);
         // release some resources
@@ -330,6 +316,23 @@ public class Spider implements Runnable, Task {
             close();
         }
         logger.info("Spider {} closed! {} pages downloaded.", getUUID(), pageCount.get());
+    }
+    private void executeThreadPool(Request request){
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    processRequest(request);
+                    onSuccess(request);
+                } catch (Exception e) {
+                    onError(request, e);
+                    logger.error("process request " + request + " error", e);
+                } finally {
+                    pageCount.incrementAndGet();
+                    signalNewUrl();
+                }
+            }
+        });
     }
 
     /**
