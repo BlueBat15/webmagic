@@ -1,8 +1,5 @@
 package us.codecraft.webmagic.proxy;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +7,8 @@ import java.util.List;
 import org.apache.http.HttpHost;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author yxssfxwzy@sina.com May 30, 2014
@@ -86,6 +85,94 @@ public class ProxyTest {
         assertEquals("127.0.0.1", proxy.getHost());
         assertEquals(8080, proxy.getPort());
     }
+
+    @Test
+    public void testEqualsBasicCondition(){
+        proxy = new Proxy("127.0.0.1",8080);
+        Proxy p = null;
+        assertFalse(proxy.equals(p));
+        p = proxy;
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.1",8080);
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.1",9000);
+        assertFalse(proxy.equals(p));
+    }
+
+    @Test
+    public void testEqualsWithSameHostCondition(){
+        // proxy.host null
+        proxy = new Proxy(null,8080);
+        Proxy p = new Proxy(null,8080);
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.1",8080);
+        assertFalse(proxy.equals(p));
+
+        // proxy.host not null
+        proxy = new Proxy("127.0.0.1",8080);
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.2",8080);
+        assertFalse(proxy.equals(p));
+    }
+
+    @Test
+    public void testEqualsWithSameSchemeCondition(){
+        // proxy.scheme null
+        proxy = new Proxy("127.0.0.1",8080);
+        Proxy p = new Proxy("127.0.0.1",8080);
+        assertTrue(proxy.equals(p));
+
+        p.setScheme("http");
+        assertFalse(proxy.equals(p));
+
+        // proxy.scheme not null
+        proxy.setScheme("http");
+        assertTrue(proxy.equals(p));
+
+        p.setScheme("https");
+        assertFalse(proxy.equals(p));
+    }
+
+   @Test
+    public void testEqualsWithSameUsernameCondition(){
+        // proxy.username null
+        proxy = new Proxy("127.0.0.1",8080,null,"password");
+        Proxy p = new Proxy("127.0.0.1",8080,null,"password");
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.1",8080,"username","password");
+        assertFalse(proxy.equals(p));
+
+        // proxy.username not null
+        proxy = new Proxy("127.0.0.1",8080,"username","password");
+        assertTrue(proxy.equals(p));
+
+        p= new Proxy("127.0.0.1",8080,"pseudo","password");
+        assertFalse(proxy.equals(p));
+    }
+
+    @Test
+    public void testEqualsWithSamePasswordCondition(){
+        // proxy.password null
+        proxy = new Proxy("127.0.0.1",8080,"username",null);
+        Proxy p = new Proxy("127.0.0.1",8080,"username",null);
+        assertTrue(proxy.equals(p));
+
+        p = new Proxy("127.0.0.1",8080,"username","password");
+        assertFalse(proxy.equals(p));
+
+        // proxy.password not null
+        proxy = new Proxy("127.0.0.1",8080,"username","password");
+        assertTrue(proxy.equals(p));
+
+        p= new Proxy("127.0.0.1",8080,"username","motdepasse");
+        assertFalse(proxy.equals(p));
+    }
+
 
     @Test
     public void testToString() {
