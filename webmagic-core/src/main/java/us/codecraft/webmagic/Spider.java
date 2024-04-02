@@ -346,15 +346,10 @@ public class Spider implements Runnable, Task {
     }
 
     private void checkRunningStat() {
-        while (true) {
-            int statNow = stat.get();
-            if (statNow == STAT_RUNNING) {
-                throw new IllegalStateException("Spider is already running!");
-            }
-            if (stat.compareAndSet(statNow, STAT_RUNNING)) {
-                break;
-            }
+        do {
+            this.checkIfRunning();
         }
+        while (!stat.compareAndSet(stat.get(), STAT_RUNNING));
     }
 
     public void close() {
