@@ -18,6 +18,13 @@ public class ProxyTest {
 
     private static List<String[]> httpProxyList = new ArrayList<String[]>();
     private Proxy proxy;
+
+
+    public static final String HOST = "127.0.0.1";
+    public static final int PORT = 8080;
+    public static final String SCHEME = "http";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
     @BeforeClass
     public static void before() {
         String[] source = { "::0.0.0.1:0", "::0.0.0.2:0", "::0.0.0.3:0", "::0.0.0.4:0" };
@@ -32,37 +39,37 @@ public class ProxyTest {
         assertNull(proxy.getScheme());
         assertNull(proxy.getUsername());
         assertNull(proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
     @Test
     public void testCreateWithSchemeOnly(){
         proxy = Proxy.create(URI.create("http://127.0.0.1:8080"));
-        assertEquals("http", proxy.getScheme());
+        assertEquals(SCHEME, proxy.getScheme());
         assertNull(proxy.getUsername());
         assertNull(proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
 
     @Test
     public void testCreateWithPasswordAndUsername() {
         proxy = Proxy.create(URI.create("//username:password@127.0.0.1:8080"));
         assertNull(proxy.getScheme());
-        assertEquals("username", proxy.getUsername());
-        assertEquals("password", proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(USERNAME, proxy.getUsername());
+        assertEquals(PASSWORD, proxy.getPassword());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
 
     @Test
     public void testCreateWithUsernameOnly() {
         proxy = Proxy.create(URI.create("//username@127.0.0.1:8080"));
         assertNull(proxy.getScheme());
-        assertEquals("username", proxy.getUsername());
+        assertEquals(USERNAME, proxy.getUsername());
         assertNull(proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
 
     @Test
@@ -71,66 +78,66 @@ public class ProxyTest {
         proxy = Proxy.create(URI.create("//:password@127.0.0.1:8080"));
         assertNull(proxy.getScheme());
         assertNull(proxy.getUsername());
-        assertEquals("password", proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(PASSWORD, proxy.getPassword());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
 
     @Test
     public void testCreateWithAllAttribute(){
         proxy = Proxy.create(URI.create("http://username:password@127.0.0.1:8080"));
-        assertEquals("http",proxy.getScheme());
-        assertEquals("username", proxy.getUsername());
-        assertEquals("password", proxy.getPassword());
-        assertEquals("127.0.0.1", proxy.getHost());
-        assertEquals(8080, proxy.getPort());
+        assertEquals(SCHEME,proxy.getScheme());
+        assertEquals(USERNAME, proxy.getUsername());
+        assertEquals(PASSWORD, proxy.getPassword());
+        assertEquals(HOST, proxy.getHost());
+        assertEquals(PORT, proxy.getPort());
     }
 
     @Test
     public void testEqualsBasicCondition(){
-        proxy = new Proxy("127.0.0.1",8080);
+        proxy = new Proxy(HOST,PORT);
         Proxy p = null;
         assertFalse(proxy.equals(p));
         p = proxy;
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.1",8080);
+        p = new Proxy(HOST,PORT);
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.1",9000);
+        p = new Proxy(HOST,9000);
         assertFalse(proxy.equals(p));
     }
 
     @Test
     public void testEqualsWithSameHostCondition(){
         // proxy.host null
-        proxy = new Proxy(null,8080);
-        Proxy p = new Proxy(null,8080);
+        proxy = new Proxy(null,PORT);
+        Proxy p = new Proxy(null,PORT);
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.1",8080);
+        p = new Proxy(HOST,PORT);
         assertFalse(proxy.equals(p));
 
         // proxy.host not null
-        proxy = new Proxy("127.0.0.1",8080);
+        proxy = new Proxy(HOST,PORT);
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.2",8080);
+        p = new Proxy("127.0.0.2",PORT);
         assertFalse(proxy.equals(p));
     }
 
     @Test
     public void testEqualsWithSameSchemeCondition(){
         // proxy.scheme null
-        proxy = new Proxy("127.0.0.1",8080);
-        Proxy p = new Proxy("127.0.0.1",8080);
+        proxy = new Proxy(HOST,PORT);
+        Proxy p = new Proxy(HOST,PORT);
         assertTrue(proxy.equals(p));
 
-        p.setScheme("http");
+        p.setScheme(SCHEME);
         assertFalse(proxy.equals(p));
 
         // proxy.scheme not null
-        proxy.setScheme("http");
+        proxy.setScheme(SCHEME);
         assertTrue(proxy.equals(p));
 
         p.setScheme("https");
@@ -140,47 +147,47 @@ public class ProxyTest {
    @Test
     public void testEqualsWithSameUsernameCondition(){
         // proxy.username null
-        proxy = new Proxy("127.0.0.1",8080,null,"password");
-        Proxy p = new Proxy("127.0.0.1",8080,null,"password");
+        proxy = new Proxy(HOST,PORT,null,PASSWORD);
+        Proxy p = new Proxy(HOST,PORT,null,PASSWORD);
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.1",8080,"username","password");
+        p = new Proxy(HOST,PORT,USERNAME,PASSWORD);
         assertFalse(proxy.equals(p));
 
         // proxy.username not null
-        proxy = new Proxy("127.0.0.1",8080,"username","password");
+        proxy = new Proxy(HOST,PORT,USERNAME,PASSWORD);
         assertTrue(proxy.equals(p));
 
-        p= new Proxy("127.0.0.1",8080,"pseudo","password");
+        p= new Proxy(HOST,PORT,"pseudo",PASSWORD);
         assertFalse(proxy.equals(p));
     }
 
     @Test
     public void testEqualsWithSamePasswordCondition(){
         // proxy.password null
-        proxy = new Proxy("127.0.0.1",8080,"username",null);
-        Proxy p = new Proxy("127.0.0.1",8080,"username",null);
+        proxy = new Proxy(HOST,PORT,USERNAME,null);
+        Proxy p = new Proxy(HOST,PORT,USERNAME,null);
         assertTrue(proxy.equals(p));
 
-        p = new Proxy("127.0.0.1",8080,"username","password");
+        p = new Proxy(HOST,PORT,USERNAME,PASSWORD);
         assertFalse(proxy.equals(p));
 
         // proxy.password not null
-        proxy = new Proxy("127.0.0.1",8080,"username","password");
+        proxy = new Proxy(HOST,PORT,USERNAME,PASSWORD);
         assertTrue(proxy.equals(p));
 
-        p= new Proxy("127.0.0.1",8080,"username","motdepasse");
+        p= new Proxy(HOST,PORT,USERNAME,"motdepasse");
         assertFalse(proxy.equals(p));
     }
 
 
     @Test
     public void testToString() {
-        assertEquals("//127.0.0.1:8080", new Proxy("127.0.0.1", 8080).toString());
-        assertEquals("http://127.0.0.1:8080", new Proxy("127.0.0.1", 8080, "http").toString());
-        assertEquals("//username:password@127.0.0.1:8080", new Proxy("127.0.0.1", 8080, "username", "password").toString());
-        assertEquals("//username@127.0.0.1:8080", new Proxy("127.0.0.1", 8080, "username", null).toString());
-        assertEquals("//:password@127.0.0.1:8080", new Proxy("127.0.0.1", 8080, null, "password").toString());
+        assertEquals("//127.0.0.1:8080", new Proxy(HOST, PORT).toString());
+        assertEquals("http://127.0.0.1:8080", new Proxy(HOST, PORT, SCHEME).toString());
+        assertEquals("//username:password@127.0.0.1:8080", new Proxy(HOST, PORT, USERNAME, PASSWORD).toString());
+        assertEquals("//username@127.0.0.1:8080", new Proxy(HOST, PORT, USERNAME, null).toString());
+        assertEquals("//:password@127.0.0.1:8080", new Proxy(HOST, PORT, null, PASSWORD).toString());
     }
 
 }
