@@ -467,7 +467,7 @@ public class Spider implements Runnable, Task {
         }
     }
 
-    public void runAsync() {
+    public void start() {
         Thread thread = new Thread(this);
         thread.setDaemon(false);
         thread.start();
@@ -568,10 +568,6 @@ public class Spider implements Runnable, Task {
         } finally {
             newUrlLock.unlock();
         }
-    }
-
-    public void start() {
-        runAsync();
     }
 
     public void stop() {
