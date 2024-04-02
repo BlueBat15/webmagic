@@ -548,7 +548,7 @@ public class Spider implements Runnable, Task {
         newUrlLock.lock();
         try {
             //double check，unnecessary, unless very fast concurrent
-            if (threadPool.getThreadAlive() == 0) {
+            if (threadPool.getThreadAlive() != 0) {
                 //wait for amount of time
                 newUrlCondition.await(emptySleepTime, TimeUnit.MILLISECONDS);
             }
