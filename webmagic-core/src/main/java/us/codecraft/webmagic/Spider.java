@@ -288,13 +288,7 @@ public class Spider implements Runnable, Task {
                             break;
                         } else {
                             // wait
-                            try {
-                                Thread.sleep(emptySleepTime);
-                                continue;
-                            } catch (InterruptedException e) {
-                                Thread.currentThread().interrupt();
-                                break;
-                            }
+                            this.sleep((int)this.emptySleepTime);
                         }
                     }
                 } else {
