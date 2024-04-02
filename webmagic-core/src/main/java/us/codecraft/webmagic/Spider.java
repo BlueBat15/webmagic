@@ -549,10 +549,9 @@ public class Spider implements Runnable, Task {
         try {
             //double check，unnecessary, unless very fast concurrent
             if (threadPool.getThreadAlive() == 0) {
-                return false;
+                //wait for amount of time
+                newUrlCondition.await(emptySleepTime, TimeUnit.MILLISECONDS);
             }
-            //wait for amount of time
-            newUrlCondition.await(emptySleepTime, TimeUnit.MILLISECONDS);
             return false;
         } catch (InterruptedException e) {
             // logger.warn("waitNewUrl - interrupted, error {}", e);
