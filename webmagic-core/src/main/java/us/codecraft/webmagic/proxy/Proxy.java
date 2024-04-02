@@ -111,11 +111,13 @@ public class Proxy {
         Proxy proxy = (Proxy) o;
 
         if (port != proxy.port) return false;
-        if (host != null ? !host.equals(proxy.host) : proxy.host != null) return false;
-        if (scheme != null ? !scheme.equals(proxy.scheme) : proxy.scheme != null) return false;
-        if (username != null ? !username.equals(proxy.username) : proxy.username != null) return false;
-        return password != null ? password.equals(proxy.password) : proxy.password == null;
+        if (sameHost(proxy)) return false;
+        if (sameScheme(proxy)) return false;
+        if (sameUsername(proxy)) return false;
+        return samePassword(proxy);
     }
+
+
 
     @Override
     public int hashCode() {
@@ -132,4 +134,19 @@ public class Proxy {
         return this.toURI().toString();
     }
 
+    private boolean sameHost(Proxy proxy){
+        return (host != null ? !host.equals(proxy.host) : proxy.host != null);
+    }
+
+    private boolean sameScheme(Proxy proxy){
+        return (scheme != null ? !scheme.equals(proxy.scheme) : proxy.scheme != null);
+    }
+
+    private boolean sameUsername(Proxy proxy){
+        return (username != null ? !username.equals(proxy.username) : proxy.username != null);
+    }
+
+    private boolean samePassword(Proxy proxy){
+        return (password != null ? password.equals(proxy.password) : proxy.password == null);
+    }
 }
