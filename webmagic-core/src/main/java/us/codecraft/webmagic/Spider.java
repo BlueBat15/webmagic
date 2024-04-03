@@ -593,23 +593,6 @@ public class Spider implements Runnable, Task {
         return this;
     }
 
-    /**
-     * start with more than one threads
-     *
-     * @param executorService executorService to run the spider
-     * @param threadNum threadNum
-     * @return this
-     */
-    public Spider setThreadNum(ExecutorService executorService, int threadNum) {
-        checkIfRunning();
-        this.threadNum = threadNum;
-        if (threadNum <= 0) {
-            throw new IllegalArgumentException("threadNum should be more than one!");
-        }
-        this.executorService = executorService;
-        return this;
-    }
-
     public boolean isExitWhenComplete() {
         return exitWhenComplete;
     }
