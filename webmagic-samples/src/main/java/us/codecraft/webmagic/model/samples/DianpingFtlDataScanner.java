@@ -22,7 +22,7 @@ public class DianpingFtlDataScanner implements AfterExtractor {
 
 	public static void main(String[] args) {
 		OOSpider.create(Site.me().setSleepTime(0), DianpingFtlDataScanner.class)
-				.thread(5).run();
+				.setThreadNum(5).run();
 	}
 
 	@Override

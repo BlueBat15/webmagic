@@ -35,6 +35,6 @@ public class GithubRepoPageMapper implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new GithubRepoPageMapper()).addUrl("https://github.com/code4craft").thread(5).run();
+        Spider.create(new GithubRepoPageMapper()).addUrl("https://github.com/code4craft").setThreadNum(5).run();
     }
 }

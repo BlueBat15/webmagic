@@ -55,7 +55,7 @@ public class ZhihuPageProcessor implements PageProcessor {
         Spider.create(new ZhihuPageProcessor()).
                 addUrl("http://www.zhihu.com/search?type=question&q=java").
                 addPipeline(new FilePipeline("D:\\webmagic\\")).
-                thread(5).
+                setThreadNum(5).
                 run();
     }
 }

@@ -44,7 +44,7 @@ public class MamacnPageProcessor implements PageProcessor {
                 .setScheduler(new FileCacheQueueScheduler("/data/webmagic/mamacn"))
                 .addUrl("http://www.mama.cn/photo/t1-p1.html")
                 .addPipeline(new OneFilePipeline("/data/webmagic/mamacn/data"))
-                .thread(5)
+                .setThreadNum(5)
                 .run();
     }
 }

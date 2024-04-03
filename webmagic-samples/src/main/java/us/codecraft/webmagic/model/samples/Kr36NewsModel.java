@@ -37,7 +37,7 @@ public class Kr36NewsModel {
             public void process(Object o, Task task) {
 
             }
-        }, Kr36NewsModel.class).thread(20).addUrl("http://www.36kr.com/");
+        }, Kr36NewsModel.class).setThreadNum(20).addUrl("http://www.36kr.com/");
         thread.start();
         SpiderMonitor spiderMonitor = SpiderMonitor.instance();
         spiderMonitor.register(thread);

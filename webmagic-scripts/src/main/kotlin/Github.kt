@@ -34,7 +34,7 @@ class GithubRepoPageProcessor : PageProcessor {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-            Spider.create(GithubRepoPageProcessor()).addUrl("https://github.com/code4craft").thread(5).run()
+            Spider.create(GithubRepoPageProcessor()).addUrl("https://github.com/code4craft").setThreadNum(5).run()
         }
     }
 }

@@ -20,7 +20,7 @@ public class QQMeishi {
     private String promo;
 
     public static void main(String[] args) {
-        OOSpider.create(Site.me(), new ConsolePageModelPipeline(), QQMeishi.class).addUrl("http://meishi.qq.com/beijing/c/all").thread(4).run();
+        OOSpider.create(Site.me(), new ConsolePageModelPipeline(), QQMeishi.class).addUrl("http://meishi.qq.com/beijing/c/all").setThreadNum(4).run();
     }
 
 }

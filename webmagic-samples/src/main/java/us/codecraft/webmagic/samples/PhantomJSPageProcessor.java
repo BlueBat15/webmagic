@@ -44,7 +44,7 @@ public class PhantomJSPageProcessor implements PageProcessor {
                 .addUrl("http://s.taobao.com/search?q=%B6%AC%D7%B0&sort=sale-desc") //%B6%AC%D7%B0为冬装的GBK编码
                 .setDownloader(phantomDownloader)
                 .addPipeline(collectorPipeline)
-                .thread((Runtime.getRuntime().availableProcessors() - 1) << 1)
+                .setThreadNum((Runtime.getRuntime().availableProcessors() - 1) << 1)
                 .run();
 
         List<ResultItems> resultItemsList = collectorPipeline.getCollected();

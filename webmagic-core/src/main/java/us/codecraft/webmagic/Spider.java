@@ -584,7 +584,7 @@ public class Spider implements Runnable, Task {
      * @param threadNum threadNum
      * @return this
      */
-    public Spider thread(int threadNum) {
+    public Spider setThreadNum(int threadNum) {
         checkIfRunning();
         this.threadNum = threadNum;
         if (threadNum <= 0) {
@@ -600,7 +600,7 @@ public class Spider implements Runnable, Task {
      * @param threadNum threadNum
      * @return this
      */
-    public Spider thread(ExecutorService executorService, int threadNum) {
+    public Spider setThreadNum(ExecutorService executorService, int threadNum) {
         checkIfRunning();
         this.threadNum = threadNum;
         if (threadNum <= 0) {

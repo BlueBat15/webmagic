@@ -24,7 +24,7 @@ public class SpiderTest {
             public void process(ResultItems resultItems, Task task) {
                 System.out.println(1);
             }
-        }).thread(1).addUrl("http://www.oschina.net/");
+        }).setThreadNum(1).addUrl("http://www.oschina.net/");
         spider.start();
         Thread.sleep(10000);
         spider.stop();
@@ -87,7 +87,7 @@ public class SpiderTest {
                 }
                 return new Request("test");
             }
-        }).thread(10);
+        }).setThreadNum(10);
         spider.run();
     }
 }

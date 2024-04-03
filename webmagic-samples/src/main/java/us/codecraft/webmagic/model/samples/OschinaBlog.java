@@ -34,7 +34,7 @@ public class OschinaBlog{
             public void process(Object o, Task task) {
 
             }
-        }, OschinaBlog.class).thread(10).addUrl("http://my.oschina.net/flashsword/blog").run();
+        }, OschinaBlog.class).setThreadNum(10).addUrl("http://my.oschina.net/flashsword/blog").run();
     }
 
     public String getTitle() {

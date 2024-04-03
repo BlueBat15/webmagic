@@ -62,7 +62,7 @@ public class PatternProcessorExample {
         pageProcessor.setSubPageProcessors(githubRepoProcessor, githubUserProcessor);
         pipeline.setSubPipeline(githubRepoProcessor, githubUserProcessor);
 
-        Spider.create(pageProcessor).addUrl("https://github.com/code4craft").thread(5).addPipeline(pipeline).start();
+        Spider.create(pageProcessor).addUrl("https://github.com/code4craft").setThreadNum(5).addPipeline(pipeline).start();
     }
 
 }

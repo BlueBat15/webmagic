@@ -37,7 +37,7 @@ public class InfoQMiniBookProcessor implements PageProcessor {
 
     public static void main(String[] args) {
         Spider.create(new InfoQMiniBookProcessor())
-                .thread(5)
+                .setThreadNum(5)
                 .addUrl("http://www.infoq.com/cn/minibooks")
                 .run();
     }

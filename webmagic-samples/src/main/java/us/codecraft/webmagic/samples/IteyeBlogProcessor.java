@@ -28,6 +28,6 @@ public class IteyeBlogProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new IteyeBlogProcessor()).thread(5).addUrl("http://yanghaoli.iteye.com/").run();
+        Spider.create(new IteyeBlogProcessor()).setThreadNum(5).addUrl("http://yanghaoli.iteye.com/").run();
     }
 }

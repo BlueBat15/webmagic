@@ -21,7 +21,7 @@ public class SpiderMonitorTest {
         };
 
         Spider zhihuSpider = Spider.create(new ZhihuPageProcessor())
-                .addUrl("http://my.oschina.net/flashsword/blog").thread(2);
+                .addUrl("http://my.oschina.net/flashsword/blog").setThreadNum(2);
         Spider githubSpider = Spider.create(new GithubRepoPageProcessor())
                 .addUrl("https://github.com/code4craft");
 
