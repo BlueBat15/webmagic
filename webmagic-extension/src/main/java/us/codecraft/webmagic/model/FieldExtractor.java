@@ -28,24 +28,12 @@ class FieldExtractor extends Extractor {
         return field;
     }
 
-    Selector getSelector() {
-        return selector;
-    }
-
-    Source getSource() {
-        return source;
-    }
-
     void setSetterMethod(Method setterMethod) {
         this.setterMethod = setterMethod;
     }
 
     Method getSetterMethod() {
         return setterMethod;
-    }
-
-    boolean isNotNull() {
-        return notNull;
     }
 
     ObjectFormatter getObjectFormatter() {
