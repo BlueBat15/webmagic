@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+
 import java.nio.charset.Charset;
 
 /**
@@ -21,7 +21,7 @@ public abstract class CharsetUtils {
 
     private static Logger logger = LoggerFactory.getLogger(CharsetUtils.class);
 
-    public static String detectCharset(String contentType, byte[] contentBytes) throws IOException {
+    public static String detectCharset(String contentType, byte[] contentBytes) {
         String charset;
         // charset
         // 1、encoding in http header Content-Type
@@ -41,7 +41,7 @@ public abstract class CharsetUtils {
                 // 2.1、html4.01 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 String metaContent = link.attr("content");
                 String metaCharset = link.attr("charset");
-                if (metaContent.indexOf("charset") != -1) {
+                if (metaContent.contains("charset")) {
                     metaContent = metaContent.substring(metaContent.indexOf("charset"), metaContent.length());
                     charset = metaContent.split("=")[1];
                     break;
