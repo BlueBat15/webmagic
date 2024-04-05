@@ -234,83 +234,114 @@ class PageModelExtractor {
             o = clazz.newInstance();
             for (FieldExtractor fieldExtractor : fieldExtractors) {
                 if (fieldExtractor.isMulti()) {
-                    List<String> value;
-                    switch (fieldExtractor.getSource()) {
-                        case RawHtml:
-                            value = page.getHtml().selectDocumentForList(fieldExtractor.getSelector());
-                            break;
-                        case Html:
-                            if (isRaw) {
-                                value = page.getHtml().selectDocumentForList(fieldExtractor.getSelector());
-                            } else {
-                                value = fieldExtractor.getSelector().selectList(html);
-                            }
-                            break;
-                        case Url:
-                            value = fieldExtractor.getSelector().selectList(page.getUrl().toString());
-                            break;
-                        case RawText:
-                            value = fieldExtractor.getSelector().selectList(page.getRawText());
-                            break;
-                        default:
-                            value = fieldExtractor.getSelector().selectList(html);
-                    }
-                    if ((value == null || value.size() == 0) && fieldExtractor.isNotNull()) {
+                    List<String> value = setValueList(fieldExtractor,page,isRaw,html);
+
+                    if (checkValueAndFieldAreNull(value,fieldExtractor,true)){
                         return null;
                     }
-                    if (fieldExtractor.getObjectFormatter() != null) {
-                        List<Object> converted = convert(value, fieldExtractor.getObjectFormatter());
-                        setField(o, fieldExtractor, converted);
-                    } else {
-                        setField(o, fieldExtractor, value);
-                    }
+
+                    setFieldWithList(o,value,fieldExtractor);
                 } else {
-                    String value;
-                    switch (fieldExtractor.getSource()) {
-                        case RawHtml:
-                            value = page.getHtml().selectDocument(fieldExtractor.getSelector());
-                            break;
-                        case Html:
-                            if (isRaw) {
-                                value = page.getHtml().selectDocument(fieldExtractor.getSelector());
-                            } else {
-                                value = fieldExtractor.getSelector().select(html);
-                            }
-                            break;
-                        case Url:
-                            value = fieldExtractor.getSelector().select(page.getUrl().toString());
-                            break;
-                        case RawText:
-                            value = fieldExtractor.getSelector().select(page.getRawText());
-                            break;
-                        default:
-                            value = fieldExtractor.getSelector().select(html);
-                    }
-                    if (value == null && fieldExtractor.isNotNull()) {
+                    String value = setValueString(fieldExtractor,page,isRaw,html);
+
+                    if (checkValueAndFieldAreNull(value,fieldExtractor,false)){
                         return null;
                     }
-                    if (fieldExtractor.getObjectFormatter() != null) {
-                        Object converted = convert(value, fieldExtractor.getObjectFormatter());
-                        if (converted == null && fieldExtractor.isNotNull()) {
-                            return null;
-                        }
-                        setField(o, fieldExtractor, converted);
-                    } else {
-                        setField(o, fieldExtractor, value);
-                    }
+
+                    setFieldWithString(o,value,fieldExtractor);
+
                 }
             }
             if (AfterExtractor.class.isAssignableFrom(clazz)) {
                 ((AfterExtractor) o).afterProcess(page);
             }
-        } catch (InstantiationException e) {
-            logger.error("extract fail", e);
-        } catch (IllegalAccessException e) {
-            logger.error("extract fail", e);
-        } catch (InvocationTargetException e) {
+        }catch (NullPointerException  e){
+            return null;
+        }catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             logger.error("extract fail", e);
         }
         return o;
+    }
+
+    private List<String> setValueList(FieldExtractor fieldExtractor,Page page,boolean isRaw, String html) {
+        List<String> value;
+        switch (fieldExtractor.getSource()) {
+            case RawHtml:
+                value = page.getHtml().selectDocumentForList(fieldExtractor.getSelector());
+                break;
+            case Html:
+                if (isRaw) {
+                    value = page.getHtml().selectDocumentForList(fieldExtractor.getSelector());
+                } else {
+                    value = fieldExtractor.getSelector().selectList(html);
+                }
+                break;
+            case Url:
+                value = fieldExtractor.getSelector().selectList(page.getUrl().toString());
+                break;
+            case RawText:
+                value = fieldExtractor.getSelector().selectList(page.getRawText());
+                break;
+            default:
+                value = fieldExtractor.getSelector().selectList(html);
+        }
+        return value;
+    }
+
+    private boolean checkValueAndFieldAreNull(Object value, FieldExtractor fieldExtractor, boolean isList) {
+        if (isList){
+            List<String> val = (List<String>) value;
+            return  ((val == null || val.isEmpty()) && fieldExtractor.isNotNull());
+        }else{
+            return (value == null && fieldExtractor.isNotNull());
+        }
+    }
+
+    private void setFieldWithList(Object o, List<String> value, FieldExtractor fieldExtractor) throws InvocationTargetException, IllegalAccessException {
+
+        if (fieldExtractor.getObjectFormatter() != null) {
+            List<Object> converted = convert(value, fieldExtractor.getObjectFormatter());
+            setField(o, fieldExtractor, converted);
+        } else {
+            setField(o, fieldExtractor, value);
+        }
+    }
+
+    private String setValueString(FieldExtractor fieldExtractor, Page page, boolean isRaw, String html) {
+        String value;
+        switch (fieldExtractor.getSource()) {
+            case RawHtml:
+                value = page.getHtml().selectDocument(fieldExtractor.getSelector());
+                break;
+            case Html:
+                if (isRaw) {
+                    value = page.getHtml().selectDocument(fieldExtractor.getSelector());
+                } else {
+                    value = fieldExtractor.getSelector().select(html);
+                }
+                break;
+            case Url:
+                value = fieldExtractor.getSelector().select(page.getUrl().toString());
+                break;
+            case RawText:
+                value = fieldExtractor.getSelector().select(page.getRawText());
+                break;
+            default:
+                value = fieldExtractor.getSelector().select(html);
+        }
+        return value;
+    }
+
+    private void setFieldWithString(Object o, String value, FieldExtractor fieldExtractor) throws NullPointerException, InvocationTargetException, IllegalAccessException {
+        if (fieldExtractor.getObjectFormatter() != null) {
+            Object converted = convert(value, fieldExtractor.getObjectFormatter());
+            if (converted == null && fieldExtractor.isNotNull()) {
+                throw new NullPointerException();
+            }
+            setField(o, fieldExtractor, converted);
+        } else {
+            setField(o, fieldExtractor, value);
+        }
     }
 
     private Object convert(String value, ObjectFormatter objectFormatter) {
