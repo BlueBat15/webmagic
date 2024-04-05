@@ -222,8 +222,7 @@ class PageModelExtractor {
                 return os;
             } else {
                 String select = objectExtractor.getSelector().select(page.getRawText());
-                Object o = processSingle(page, select, false);
-                return o;
+                return processSingle(page, select, false);
             }
         }
     }
@@ -240,7 +239,7 @@ class PageModelExtractor {
                         return null;
                     }
 
-                    setFieldWithList(o,value,fieldExtractor);
+                    setField(o,value,fieldExtractor,true);
                 } else {
                     String value = setValueString(fieldExtractor,page,isRaw,html);
 
@@ -248,7 +247,7 @@ class PageModelExtractor {
                         return null;
                     }
 
-                    setFieldWithString(o,value,fieldExtractor);
+                    setField(o,value,fieldExtractor,false);
 
                 }
             }
@@ -297,16 +296,6 @@ class PageModelExtractor {
         }
     }
 
-    private void setFieldWithList(Object o, List<String> value, FieldExtractor fieldExtractor) throws InvocationTargetException, IllegalAccessException {
-
-        if (fieldExtractor.getObjectFormatter() != null) {
-            List<Object> converted = convert(value, fieldExtractor.getObjectFormatter());
-            setField(o, fieldExtractor, converted);
-        } else {
-            setField(o, fieldExtractor, value);
-        }
-    }
-
     private String setValueString(FieldExtractor fieldExtractor, Page page, boolean isRaw, String html) {
         String value;
         switch (fieldExtractor.getSource()) {
@@ -332,13 +321,19 @@ class PageModelExtractor {
         return value;
     }
 
-    private void setFieldWithString(Object o, String value, FieldExtractor fieldExtractor) throws NullPointerException, InvocationTargetException, IllegalAccessException {
+    private void setField(Object o, Object value, FieldExtractor fieldExtractor,boolean isList) throws NullPointerException, InvocationTargetException, IllegalAccessException {
+
         if (fieldExtractor.getObjectFormatter() != null) {
-            Object converted = convert(value, fieldExtractor.getObjectFormatter());
-            if (converted == null && fieldExtractor.isNotNull()) {
-                throw new NullPointerException();
+            if (isList){
+                List<Object> converted = convert((List<String>) value, fieldExtractor.getObjectFormatter());
+                setField(o, fieldExtractor, converted);
+            }else{
+                Object converted = convert((String) value, fieldExtractor.getObjectFormatter());
+                if (converted == null && fieldExtractor.isNotNull()) {
+                    throw new NullPointerException();
+                }
+                setField(o, fieldExtractor, converted);
             }
-            setField(o, fieldExtractor, converted);
         } else {
             setField(o, fieldExtractor, value);
         }
