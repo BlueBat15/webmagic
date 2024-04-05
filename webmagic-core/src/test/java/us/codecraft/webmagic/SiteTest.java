@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.nio.charset.StandardCharsets;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class SiteTest {
@@ -14,4 +15,10 @@ public class SiteTest {
         assertEquals(StandardCharsets.UTF_8.name(), site.getDefaultCharset());
     }
 
+    @Test
+    public void addHeaderTest(){
+        Site site = Site.me();
+        site.addHeader("test","header");
+        assertEquals("header",site.getHeaders().get("test"));
+    }
 }
