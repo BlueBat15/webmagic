@@ -3,6 +3,8 @@ package us.codecraft.webmagic;
 import static org.junit.Assert.assertEquals;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +19,7 @@ public class SiteTest {
     }
 
     @Test
-    public void test() {
+    public void charsetTest() {
         site.setDefaultCharset(StandardCharsets.UTF_8.name());
         assertEquals(StandardCharsets.UTF_8.name(), site.getDefaultCharset());
     }
@@ -31,6 +33,15 @@ public class SiteTest {
     @Test
     public void addCookieTest(){
     site.addCookie("test","cookie");
-    assertEquals("cookie",site.getCookies().get("test"));
+    assertEquals("cookie",site.getDefaultCookies().get("test"));
+
+    }
+
+    @Test
+    public void addCookie3ParamsTest(){
+        site.addCookie("domain","test","cookie");
+        Map<String,String> cookie = new HashMap<>();
+        cookie.put("test","cookie");
+        assertEquals(cookie,site.getCookies().get("domain"));
     }
 }
