@@ -243,18 +243,6 @@ public class Spider implements Runnable, Task {
         return this;
     }
 
-    protected void initComponent() {
-        if (this.downloader == null) {
-            this.setDownloader(new HttpClientDownloader());
-        }
-        if (this.pipelines.isEmpty()) {
-            this.addPipeline(new ConsolePipeline());
-        }
-        this.downloader.setThread(this.threadNum);
-        this.initThreadPool();
-        this.addStartRequests(this.startRequests);
-        this.startTime = new Date();
-    }
     @Override
     public void run() {
         initComponent();
@@ -295,7 +283,6 @@ public class Spider implements Runnable, Task {
         }
         logger.info("Spider {} closed! {} pages downloaded.", getUUID(), pageCount.get());
     }
-
     public void close() {
         destroyEach(downloader);
         destroyEach(pageProcessor);
@@ -370,10 +357,6 @@ public class Spider implements Runnable, Task {
         spawnUrl = true;
         destroyWhenExit = true;
         return collectorPipeline.getCollected();
-    }
-
-    protected CollectorPipeline getCollectorPipeline() {
-        return new ResultItemsCollectorPipeline();
     }
 
     public <T> T get(String url) {
@@ -494,6 +477,8 @@ public class Spider implements Runnable, Task {
 
 
 
+
+
     }
     /**
      * Get thread count which is running
@@ -540,11 +525,9 @@ public class Spider implements Runnable, Task {
     public Site getSite() {
         return site;
     }
-
     public List<SpiderListener> getSpiderListeners() {
         return spiderListeners;
     }
-
     public Spider setSpiderListeners(List<SpiderListener> spiderListeners) {
         this.spiderListeners = spiderListeners;
         return this;
@@ -570,6 +553,23 @@ public class Spider implements Runnable, Task {
         }
         this.emptySleepTime = emptySleepTime;
         return this;
+    }
+
+    protected void initComponent() {
+        if (this.downloader == null) {
+            this.setDownloader(new HttpClientDownloader());
+        }
+        if (this.pipelines.isEmpty()) {
+            this.addPipeline(new ConsolePipeline());
+        }
+        this.downloader.setThread(this.threadNum);
+        this.initThreadPool();
+        this.addStartRequests(this.startRequests);
+        this.startTime = new Date();
+    }
+
+    protected CollectorPipeline getCollectorPipeline() {
+        return new ResultItemsCollectorPipeline();
     }
 
     protected void checkIfRunning() {
