@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Proxy {
 
+    public static final int HASH = 31;
+    public static final int DEFAULT_HASH_VALUE = 0;
     private String scheme;
 
     private String host;
@@ -119,11 +121,11 @@ public class Proxy {
 
     @Override
     public int hashCode() {
-        int result = host != null ? host.hashCode() : 0;
-        result = 31 * result + port;
-        result = 31 * result + (scheme != null ? scheme.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        int result = host != null ? host.hashCode() : DEFAULT_HASH_VALUE;
+        result = HASH * result + port;
+        result = HASH * result + (scheme != null ? scheme.hashCode() : DEFAULT_HASH_VALUE);
+        result = HASH * result + (username != null ? username.hashCode() : DEFAULT_HASH_VALUE);
+        result = HASH * result + (password != null ? password.hashCode() : DEFAULT_HASH_VALUE);
         return result;
     }
 
