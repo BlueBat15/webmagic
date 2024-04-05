@@ -9,16 +9,28 @@ import org.junit.Test;
 
 public class SiteTest {
 
+    private Site site;
+
+    @Before
+    public void init(){
+        site = Site.me();
+    }
+
     @Test
     public void test() {
-        Site site = Site.me().setDefaultCharset(StandardCharsets.UTF_8.name());
+        site.setDefaultCharset(StandardCharsets.UTF_8.name());
         assertEquals(StandardCharsets.UTF_8.name(), site.getDefaultCharset());
     }
 
     @Test
     public void addHeaderTest(){
-        Site site = Site.me();
         site.addHeader("test","header");
         assertEquals("header",site.getHeaders().get("test"));
+    }
+
+    @Test
+    public void addCookieTest(){
+    site.addCookie("test","cookie");
+    assertEquals("cookie",site.getCookies().get("test"));
     }
 }
