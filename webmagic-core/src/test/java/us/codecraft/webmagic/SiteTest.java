@@ -44,4 +44,12 @@ public class SiteTest {
         cookie.put("test","cookie");
         assertEquals(cookie,site.getCookies().get("domain"));
     }
+
+    @Test
+    public void toTaskTest(){
+        site.setDomain("domain");
+        Task task = site.toTask();
+        assertEquals(site.getDomain(), task.getUUID());
+        assertEquals(site, task.getSite());
+    }
 }
