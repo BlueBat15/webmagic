@@ -107,7 +107,7 @@ public class Site {
      *
      * @return get cookies
      */
-    public Map<String, String> getCookies() {
+    public Map<String, String> getDefaultCookies() {
         return defaultCookies;
     }
 
@@ -116,7 +116,7 @@ public class Site {
      *
      * @return get cookies
      */
-    public Map<String,Map<String, String>> getAllCookies() {
+    public Map<String,Map<String, String>> getCookies() {
         return cookies;
     }
 
